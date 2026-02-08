@@ -1,5 +1,34 @@
 <div class="p-4">
   <h2 class="mb-4">DFA Transition Table</h2>
+  <div class="mb-3">
+    <label class="form-label fw-bold">Input Alphabet:</label>
+    <div class="d-flex gap-3">
+      <div class="form-check">
+        <input 
+          class="form-check-input" 
+          type="radio" 
+          value="ab"
+          [(ngModel)]="alphabet"
+          (ngModelChange)="onAlphabetChange()"
+        >
+        <label class="form-check-label" for="alphabetAB">
+          a, b
+        </label>
+      </div>
+      <div class="form-check">
+        <input
+          class="form-check-input"
+          type="radio"
+          value="01"
+          [(ngModel)]="alphabet"
+          (ngModelChange)="onAlphabetChange()"
+        >
+        <label class="form-check-label" for="alphabet01">
+          0, 1
+        </label>
+      </div>
+    </div>
+  </div>
   
   <div class="d-flex gap-2 mb-3">
     <button (click)="addState()" class="btn btn-primary">Add State</button>
@@ -13,8 +42,8 @@
           <th>State Name</th>
           <th>Start State</th>
           <th>Accepting</th>
-          <th>Transition on 'a'</th>
-          <th>Transition on 'b'</th>
+          <th>Transition on '{{ getSymbol1() }}'</th>
+          <th>Transition on '{{ getSymbol2() }}'</th>
           <th>Actions</th>
         </tr>
       </thead>
@@ -88,12 +117,11 @@
   </div>
 
   <div class="alert" [ngClass]="validationResult.isValid ? 'alert-success' : 'alert-danger'">
-    <h5 class="alert-heading">Validation Status</h5>
     <div *ngIf="validationResult.isValid">
       <strong>Valid DFA</strong>
     </div>
     <div *ngIf="!validationResult.isValid">
-      <p class="mb-2"><strong>Invalid DFA</strong></p>
+      <p class="mb-2"><strong>The given data can't be used to create a DFA</strong></p>
       <ul class="mb-0">
         <li *ngFor="let error of validationResult.errors">{{ error }}</li>
       </ul>

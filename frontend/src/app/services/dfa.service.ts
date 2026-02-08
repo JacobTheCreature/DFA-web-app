@@ -8,9 +8,12 @@ export interface DFAState {
   transitionB: string
 }
 
+export type Alphabet = 'ab' | '01'
+
 export interface DFA {
   states: DFAState[],
-  startState: string
+  startState: string,
+  alphabet: Alphabet
 }
 
 export interface ValidationResult {
@@ -35,8 +38,9 @@ export class DfaService {
     return this.dfaSubject.value
   }
 
-  validateDFA(states: DFAState[]): ValidationResult {
+  validateDFA(states: DFAState[], alphabet: Alphabet = 'ab'): ValidationResult {
     const errors: string[] = []
+    const [symbol1, symbol2] = alphabet === 'ab' ? ['a', 'b'] : ['0', '1']
 
     if (states.length === 0) {
       errors.push('DFA must have at least one state')
@@ -63,17 +67,17 @@ export class DfaService {
       // If I delete or rename a state that has other states transition to it this will catch the "invalid name" error
       // Should just make a function to re-set the values to the new name from the old name for all states that go to it
       if (state.transitionA && state.transitionA !== 'DEAD' && !stateNames.includes(state.transitionA)) {
-        errors.push(`State "${state.name}" has invalid transition on 'a': "${state.transitionA}"`)
+        errors.push(`State "${state.name}" has invalid transition on '${symbol1}': "${state.transitionA}"`)
       }
       if (state.transitionB && state.transitionB !== 'DEAD' && !stateNames.includes(state.transitionB)) {
-        errors.push(`State "${state.name}" has invalid transition on 'b': "${state.transitionB}"`)
+        errors.push(`State "${state.name}" has invalid transition on '${symbol2}': "${state.transitionB}"`)
       }
       // DFA must have transitions for all possible inputs
       if (!state.transitionA) {
-        errors.push(`State "${state.name}" is missing transition on 'a'`)
+        errors.push(`State "${state.name}" is missing transition on '${symbol1}'`)
       }
       if (!state.transitionB) {
-        errors.push(`State "${state.name}" is missing transition on 'b'`)
+        errors.push(`State "${state.name}" is missing transition on '${symbol2}'`)
       }
     })
 

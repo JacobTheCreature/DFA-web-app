@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { DfaService, DFAState, ValidationResult } from '../../services/dfa.service';
+import { DfaService, DFAState, ValidationResult, Alphabet } from '../../services/dfa.service';
 
 @Component({
   selector: 'app-transition-table',
@@ -14,6 +14,7 @@ export class TransitionTableComponent implements OnInit {
   states: DFAState[] = []
   validationResult: ValidationResult = { isValid: true, errors: [] }
   startStateName: string = ''
+  alphabet: Alphabet = 'ab'
 
   constructor(private dfaService: DfaService) {}
 
@@ -22,6 +23,7 @@ export class TransitionTableComponent implements OnInit {
     if (DFA && DFA.states.length > 0) {
       this.states = DFA.states
       this.startStateName = DFA.startState
+      this.alphabet = DFA.alphabet || 'ab'
     } else {
       // Initialize with one empty state
       this.addState()
@@ -74,14 +76,15 @@ export class TransitionTableComponent implements OnInit {
   }
 
   validate(): boolean {
-    this.validationResult = this.dfaService.validateDFA(this.states)
+    this.validationResult = this.dfaService.validateDFA(this.states, this.alphabet)
     return this.validationResult.isValid
   }
 
   saveDFA(): void {
     this.dfaService.setDFA({
       states: this.states,
-      startState: this.startStateName
+      startState: this.startStateName,
+      alphabet: this.alphabet
     })
   }
 
@@ -93,5 +96,19 @@ export class TransitionTableComponent implements OnInit {
 
   getStateNames(): string[] {
     return this.states.map(s => s.name).filter(name => name.trim() !== '')
+  }
+
+  onAlphabetChange(): void {
+    if (this.validate()) {
+      this.saveDFA()
+    }
+  }
+
+  getSymbol1(): string {
+    return this.alphabet === 'ab' ? 'a' : '0'
+  }
+
+  getSymbol2(): string {
+    return this.alphabet === 'ab' ? 'b' : '1'
   }
 }
