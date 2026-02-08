@@ -1,1 +1,102 @@
-<p>transition-table.component works!</p>
+<div class="p-4">
+  <h2 class="mb-4">DFA Transition Table</h2>
+  
+  <div class="d-flex gap-2 mb-3">
+    <button (click)="addState()" class="btn btn-primary">Add State</button>
+    <button (click)="clearAll()" class="btn btn-danger">Clear All</button>
+  </div>
+
+  <div class="table-responsive mb-3">
+    <table class="table table-hover table-bordered">
+      <thead class="table-light">
+        <tr class="text-center">
+          <th>State Name</th>
+          <th>Start State</th>
+          <th>Accepting</th>
+          <th>Transition on 'a'</th>
+          <th>Transition on 'b'</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let state of states; let i = index">
+          <td>
+            <input 
+              type="text" 
+              [(ngModel)]="state.name"
+              (ngModelChange)="onInputChange()"
+              placeholder="State name"
+              class="form-control form-control-sm"
+            />
+          </td>
+          <td class="text-center align-middle">
+            <input 
+              type="radio" 
+              name="startState"
+              [value]="state.name"
+              [(ngModel)]="startStateName"
+              (ngModelChange)="onInputChange()"
+              class="form-check-input"
+            />
+          </td>
+          <td class="text-center align-middle">
+            <input 
+              type="checkbox" 
+              [(ngModel)]="state.isAccepting"
+              (ngModelChange)="onInputChange()"
+              class="form-check-input"
+            />
+          </td>
+          <td>
+            <select 
+              [(ngModel)]="state.transitionA"
+              (ngModelChange)="onInputChange()"
+              class="form-select form-select-sm"
+            >
+              <option value="">-- Select --</option>
+              <option value="DEAD">Dead State</option>
+              <option *ngFor="let stateName of getStateNames()" [value]="stateName">
+                {{ stateName }}
+              </option>
+            </select>
+          </td>
+          <td>
+            <select 
+              [(ngModel)]="state.transitionB"
+              (ngModelChange)="onInputChange()"
+              class="form-select form-select-sm"
+            >
+              <option value="">-- Select --</option>
+              <option value="DEAD">Dead State</option>
+              <option *ngFor="let stateName of getStateNames()" [value]="stateName">
+                {{ stateName }}
+              </option>
+            </select>
+          </td>
+          <td class="text-center align-middle">
+            <button 
+              (click)="removeState(i)" 
+              class="btn btn-danger btn-sm"
+              [disabled]="states.length <= 1"
+            >
+              <i class="bi bi-x-lg"></i>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="alert" [ngClass]="validationResult.isValid ? 'alert-success' : 'alert-danger'">
+    <h5 class="alert-heading">Validation Status</h5>
+    <div *ngIf="validationResult.isValid">
+      <strong>Valid DFA</strong>
+    </div>
+    <div *ngIf="!validationResult.isValid">
+      <p class="mb-2"><strong>Invalid DFA</strong></p>
+      <ul class="mb-0">
+        <li *ngFor="let error of validationResult.errors">{{ error }}</li>
+      </ul>
+    </div>
+  </div>
+</div>
