@@ -47,7 +47,7 @@ export class TransitionTableComponent implements OnInit {
     }
     
     if (this.validate()) {
-      this.saveDFA
+      this.saveDFA()
     }
   }
 
@@ -62,14 +62,14 @@ export class TransitionTableComponent implements OnInit {
       }
       
       if (this.validate()) {
-        this.saveDFA
+        this.saveDFA()
       }
     }
   }
 
   onInputChange(): void {
     if (this.validate()) {
-      this.saveDFA
+      this.saveDFA()
     }
   }
 
