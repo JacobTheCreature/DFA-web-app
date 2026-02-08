@@ -127,4 +127,29 @@
       </ul>
     </div>
   </div>
+
+  <div class="mt-4" *ngIf="validationResult.isValid">
+    <h3 class="mb-1">Test String</h3>
+    <p class="mb-2">Leave empty to test empty string</p>
+    <div class="input-group mb-3">
+      <input 
+        type="text" 
+        [(ngModel)]="testString"
+        placeholder="Enter string to test ({{ alphabet === 'ab' ? 'aabba' : '01101' }})"
+        class="form-control"
+      />
+      <button 
+        (click)="testStringInput()" 
+        class="btn btn-primary"
+      >
+        Test
+      </button>
+    </div>
+    <div *ngIf="testResult !== null" class="alert" [ngClass]="testResult ? 'alert-success' : 'alert-danger'">
+      <strong *ngIf="testResult">String is in the language</strong>
+      <strong *ngIf="!testResult">String is in not the language</strong>
+    </div>
+  </div>
 </div>
+
+ 

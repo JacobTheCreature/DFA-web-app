@@ -15,6 +15,8 @@ export class TransitionTableComponent implements OnInit {
   validationResult: ValidationResult = { isValid: true, errors: [] }
   startStateName: string = ''
   alphabet: Alphabet = 'ab'
+  testString: string = ''
+  testResult: boolean | null = null
 
   constructor(private dfaService: DfaService) {}
 
@@ -110,5 +112,39 @@ export class TransitionTableComponent implements OnInit {
 
   getSymbol2(): string {
     return this.alphabet === 'ab' ? 'b' : '1'
+  }
+
+  testStringInput(): void {
+    // Validate the input string contains only valid alphabet symbols
+    const validSymbols = this.alphabet === 'ab' ? ['a', 'b'] : ['0', '1']
+    const isValidInput = this.testString.split('').every(char => validSymbols.includes(char))
+    
+    if (!isValidInput) {
+      this.testResult = false
+      return
+    }
+
+    // Start from the start state
+    let currentState = this.startStateName
+    
+    // Process each symbol in the input string
+    for (const symbol of this.testString) {
+      const state = this.states.find(s => s.name === currentState)
+
+      // Determine next state based on symbol
+      const transition = symbol === this.getSymbol1() ? state?.transitionA : state?.transitionB
+      
+      // If dead state then stop
+      if (!transition || transition === 'DEAD') {
+        this.testResult = false
+        return
+      }
+
+      currentState = transition
+    }
+
+    // Check if final state is accepting
+    const finalState = this.states.find(s => s.name === currentState)
+    this.testResult = finalState ? finalState.isAccepting : false
   }
 }
