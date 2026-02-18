@@ -1,5 +1,7 @@
 ### If you want to run this yourself follow these steps:
 
+(Ensure you also have npm installed, if `ng serve` does not work run `npm install -g @angular/cli` then try again)
+
 1. Clone the repo
 
 2. cd into the frontend folder
