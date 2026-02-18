@@ -81,7 +81,6 @@ export class DfaService {
       }
     })
 
-    // Must have at least one accepting state
     if (!states.some(s => s.isAccepting)) {
       errors.push('DFA must have at least one accepting state')
     }
