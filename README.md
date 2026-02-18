@@ -1,4 +1,4 @@
-If you want to run this yourself follow these steps:
+### If you want to run this yourself follow these steps:
 
 1. Clone the repo
 
@@ -9,3 +9,13 @@ If you want to run this yourself follow these steps:
 4. run `ng serve`
 
 5. go to localhost:4200
+
+### For grading the logic look at these files:
+
+frontend > src > app > components > transition-table > transition-table.component.ts
+
+This is where the main logic for constructing and checking DFAs
+
+frontend > src > app > services > dfa.service.ts
+
+This is where the logic is to check if a given DFA is valid
