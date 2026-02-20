@@ -21,3 +21,8 @@ This is where the main logic for constructing and checking DFAs
 frontend > src > app > services > dfa.service.ts
 
 This is where the logic is to check if a given DFA is valid
+
+### AI Acknowledgement
+
+AI was used to make the HTML and styling, though I made sure to keep it super straightforward and simple
+
