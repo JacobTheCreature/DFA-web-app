@@ -24,5 +24,6 @@ This is where the logic is to check if a given DFA is valid
 
 ### AI Acknowledgement
 
-AI was used to make the HTML and styling, though I made sure to keep it super straightforward and simple
+AI was used to make the HTML and styling, though I made sure to keep it super straightforward and simple. Raw AI made HTML and CSS is super verbose and unnescessairly complex and over uses CSS.
+So I made to so simplify with bootstrap and provided the basic HTML format first.
 
